@@ -1,0 +1,11 @@
+.DS_Store
+*~
+*.iws
+*.sublime-workspace
+.cache
+/lib
+/scratch
+node_modules
+/*.log
+ephox-*.tgz
+/*.tmp
