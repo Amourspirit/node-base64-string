@@ -1,7 +1,7 @@
 {
   "_name": "base64string",
   "name": "base64-string",
-  "version": "1.0.0-RELEASE.0",
+  "version": "1.0.0-RELEASE.1",
   "description": "Encode or decode base64 strings - including cli",
   "main": "index.js",
   "homepage": "https://github.com/Amourspirit/node-base64-string",
