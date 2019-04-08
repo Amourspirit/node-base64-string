@@ -1,4 +1,4 @@
-declare class Base64 {
+export declare class Base64 {
     private b64c;
     private b64u;
     private b64pad;

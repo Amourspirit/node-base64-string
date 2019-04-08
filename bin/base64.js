@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // #region requires
-var base64 = require('../index');
+var base64 = require('../index').Base64;
 var fs = require('fs');
 var path = require('path');
 var mkdirp = require('mkdirp');

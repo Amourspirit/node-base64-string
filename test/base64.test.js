@@ -2,7 +2,7 @@
 const assert = require('chai').assert;
 require('mocha-sinon');
 const fs = require('fs');
-const b64 = require('../index.js');
+const b64 = require('../index.js').Base64;
 const randomstring = require('randomstring');
 const decodedTxt = process.cwd() + '/test/fixtures/decoded.txt';
 const encodedTxt = process.cwd() + '/test/fixtures/encoded.txt';

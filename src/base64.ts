@@ -1,4 +1,4 @@
-class Base64 {
+export class Base64 {
   private b64c: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';   // base64 dictionary
   private b64u: string = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';   // base64url dictionary
   private b64pad: string = '=';
@@ -111,4 +111,4 @@ class Base64 {
     return this.b64u.indexOf(c)
   }
 };
-module.exports = Base64;
+// module.exports = Base64;

@@ -1,4 +1,5 @@
 'use strict';
+Object.defineProperty(exports, '__esModule', {value: true});
 var Base64 = (function() {
 	function Base64() {
 		this.b64c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
@@ -78,4 +79,4 @@ var Base64 = (function() {
 	};
 	return Base64;
 })();
-module.exports = Base64;
+exports.Base64 = Base64;
