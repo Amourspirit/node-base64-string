@@ -225,7 +225,7 @@ if ((isTravis === false)) {
   describe('Bin End of line test', function() {
     it('should encode hello world and add End of Line for the current os', function(done) {
       const enc = encodeText('hello world', 'eol');
-      assert.equal('aGVsbG8gd29ybGQ=\n', enc);
+      assert.equal(('aGVsbG8gd29ybGQ=' + eol), enc);
       done();
     });
     it("should encode hello world", function (done) {
