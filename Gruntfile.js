@@ -1,6 +1,7 @@
 var isWin = process.platform === "win32";
 
 module.exports = function (grunt) {
+  // #region grunt init config
   grunt.initConfig({
     // pkg: packageData,
     env: {
@@ -102,6 +103,8 @@ module.exports = function (grunt) {
       // could not get callback to work
     },
   });
+  // #endregion
+  // #region grunt require and load npm task
   require('load-grunt-tasks')(grunt);
   grunt.loadNpmTasks('grunt-env');
   grunt.loadNpmTasks('grunt-prettier');
@@ -109,13 +112,28 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-version-bump');
-
+// #endregion
   grunt.registerTask('default', [
     'version_bump:build',
     'build'
   ]);
-  grunt.registerTask('patch', [
+  grunt.registerTask('build_build', [
+    'version_bump:build',
+    'build_git'
+  ]);
+  grunt.registerTask('build_patch', [
     'version_bump:patch',
+    'build_git',
+  ]);
+   grunt.registerTask('build_minor', [
+    'version_bump:minor',
+    'build_git',
+  ]);
+  grunt.registerTask('build_major', [
+    'version_bump:major',
+    'build_git',
+  ]);
+  grunt.registerTask('build_git', [
     'env:build',
     'test',
     'gitver'
@@ -175,7 +193,6 @@ module.exports = function (grunt) {
 ]);
  // #region git
   grunt.registerTask('gitver', [
-    'env:build',
     'gitveradd',
     'gitvercommit',
     'gitvertag',
