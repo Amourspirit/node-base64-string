@@ -1,6 +1,18 @@
-var isWin = process.platform === "win32";
-
 module.exports = function (grunt) {
+  var isWin = process.platform === "win32";
+  var _nodeMajor = 0;
+  function _getNodeMajor() {
+    // https://www.regexpal.com/?fam=108819
+    var s = process.version;
+    var major = s.replace(/v?(?:(\d+)\.)?(?:(\d+)\.)?(\*|\d+)/, '$1');
+    return parseInt(major, 10);
+  }
+  var nodeMajor = function() {
+    if (_nodeMajor === 0) {
+      _nodeMajor = _getNodeMajor();
+    }
+    return _nodeMajor;
+  }
   // #region grunt init config
   grunt.initConfig({
     // pkg: packageData,
@@ -155,9 +167,14 @@ module.exports = function (grunt) {
     // exec $(which node) $(which mocha) works on all tested versions
     var cmd = '';
     if (isWin === true) {
-      var cmd =  'npx mocha'; // '.\\node_modules\\.bin\\mocha.cmd';
+      cmd =  'npx mocha'; // '.\\node_modules\\.bin\\mocha.cmd';
     } else {
-      var cmd = 'npx mocha'; // '$(which node) $(which mocha)';
+      if (nodeMajor <= 6) {
+        cmd = '$(which node) $(which mocha)';
+      } else {
+        cmd = 'npx mocha';
+      }
+      
     }
     require('child_process').exec(cmd, function (err, stdout) {
       grunt.log.write(stdout);
