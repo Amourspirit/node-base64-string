@@ -1,17 +1,11 @@
 module.exports = function (grunt) {
   var isWin = process.platform === "win32";
-  var _nodeMajor = 0;
+  var nodeMajor = _getNodeMajor();
   function _getNodeMajor() {
     // https://www.regexpal.com/?fam=108819
     var s = process.version;
     var major = s.replace(/v?(?:(\d+)\.)?(?:(\d+)\.)?(\*|\d+)/, '$1');
     return parseInt(major, 10);
-  }
-  var nodeMajor = function() {
-    if (_nodeMajor === 0) {
-      _nodeMajor = _getNodeMajor();
-    }
-    return _nodeMajor;
   }
   // #region grunt init config
   grunt.initConfig({
@@ -165,6 +159,7 @@ module.exports = function (grunt) {
     var done = this.async();
     // exec works with $(which mocha) except on travis ci below nodejs version 8
     // exec $(which node) $(which mocha) works on all tested versions
+    grunt.log.writeln("Node Major Version:", nodeMajor);
     var cmd = '';
     if (isWin === true) {
       cmd =  'npx mocha'; // '.\\node_modules\\.bin\\mocha.cmd';
