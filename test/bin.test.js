@@ -16,6 +16,54 @@ const isTravis = false;
 // }
 // #endregion
 // currently travis is working with bin test.
+// #region functions const
+const nodeMajor = _getNodeMajor();
+function _getNodeMajor() {
+  // https://www.regexpal.com/?fam=108819
+  var s = process.version;
+  var major = s.replace(/v?(?:(\d+)\.)?(?:(\d+)\.)?(\*|\d+)/, '$1');
+  return parseInt(major, 10);
+}
+function getCommand() {
+  // including $(which node)  is not necessary for local test
+  // ./bin/base64.js is 0777 and is executable
+  // however there is an issue on travis ci where all calls to ./bin/base64.js fail
+  // maybe I could have chmod the file in .travis.yml, this seemed the easy fix and still runs local
+  if (arguments.length === 0) {
+    throw new Error("getCommand requires one or more args");
+  }
+  var p = arguments[0];
+  for (var i = 1; i < arguments.length; i++) {
+    p += ' ' + arguments[i];
+  }
+  var result = '';
+  if (isWin === true) {
+    result = '.\\bin\\base64.cmd ' + p;
+  } else {
+    result = 'npx ./bin/base64.js ' + p;
+  }
+  return result;
+}
+function getCommandEncode(encodeString, optinalParams) {
+  let params = 'encode input:"' + encodeString + '"';
+  return getCommand(params, optinalParams);
+}
+function getCommandDecode(encodeString, optinalParams) {
+  let params = 'decode input:"' + encodeString + '"';
+  return getCommand(params, optinalParams);
+}
+function encodeText(s, optinalParams) {
+  const fullCmd = getCommandEncode(s, optinalParams);
+  const buff = execSync(fullCmd);
+  var result = buff.toString();
+  return result;
+}
+function decodeText(s, optinalParams) {
+  const fullCmd = getCommandDecode(s, optinalParams);
+  const buff = execSync(fullCmd);
+  return buff.toString();
+}
+// #endregion
 if ((isTravis === false)) {
 // #region Bin Encoding
   describe("Bin Encoding", function() {
@@ -280,7 +328,12 @@ function getCommand() {
   if (isWin === true) {
     result = '.\\bin\\base64.cmd ' + p;
   } else {
-    result = 'npx ./bin/base64.js ' + p;
+    if (nodeMajor <= 6) {
+      result = '$(which node) ./bin/base64.js ' + p;
+    } else {
+      result = 'npx ./bin/base64.js ' + p;  
+    }
+    
   }
   return result;
 }
