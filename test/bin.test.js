@@ -4,6 +4,7 @@ require('mocha-sinon');
 const fs = require('fs');
 const { exec, execSync } = require('child_process');
 const endOfLine = require('os').EOL;
+var isWin = process.platform === "win32";
 const randomstring = require("randomstring");
 const decodedTxt = process.cwd() + '/test/fixtures/decoded.txt';
 const encodedTxt = process.cwd() + '/test/fixtures/encoded.txt';
@@ -32,7 +33,7 @@ if ((isTravis === false)) {
       });
     });
     it("should write a file to equal base64 encoded fixture", function(done) {
-      let outFile = './scratch/tmp/text/enc/encoded.txt';
+      let outFile = './scratch/test/text/enc/encoded.txt';
       let params = 'in:"test/fixtures/decoded.txt"';
       params += ' out:"' + outFile + '"';
       const fullCmd = getCommand(params, 'encode');
@@ -49,7 +50,7 @@ if ((isTravis === false)) {
       });
     });
     it("should write a file to equal base64 encodedUrlData fixture", function(done) {
-      let outFile = 'scratch/tmp/text/enc/encodedUrlData.txt';
+      let outFile = 'scratch/test/text/enc/encodedUrlData.txt';
       let params = 'in:"./test/fixtures/decodedUrlData.txt"';
       params += ' out:"' + outFile + '"';
       const fullCmd = getCommand(params, 'url');
@@ -81,7 +82,7 @@ if ((isTravis === false)) {
       });
     });
     it("should write a file to with the encoded contents equal to hello world", function(done) {
-      let outFile = './scratch/tmp/text/enc/encHelloWorld.txt';
+      let outFile = './scratch/test/text/enc/encHelloWorld.txt';
       let params = 'input:"hello world"';
       params += ' out:"' + outFile + '"';
       const fullCmd = getCommand(params, 'encode');
@@ -113,7 +114,7 @@ if ((isTravis === false)) {
       });
     });
     it('should write a file to equal base64 decoded fixture', function (done) {
-      let outFile = './scratch/tmp/text/enc/decoded.txt';
+      let outFile = './scratch/test/text/enc/decoded.txt';
       let params = 'in:"test/fixtures/encoded.txt"';
       params += ' out:"' + outFile + '"';
       const fullCmd = getCommand(params, 'decode');
@@ -130,7 +131,7 @@ if ((isTravis === false)) {
       });
     });
     it('should write a file to equal base64 decodedUrlData fixture', function (done) {
-      let outFile = 'scratch/tmp/text/enc/decodedUrlData.txt';
+      let outFile = 'scratch/test/text/enc/decodedUrlData.txt';
       let params = 'in:"./test/fixtures/encodedUrlData.txt"';
       params += ' out:"' + outFile + '"';
       const fullCmd = getCommand(params, 'decode');
@@ -162,7 +163,7 @@ if ((isTravis === false)) {
       });
     });
     it('should write a file to with the decoded contents equal to hello world', function (done) {
-      let outFile = './scratch/tmp/text/enc/decHelloWorld.txt';
+      let outFile = './scratch/test/text/enc/decHelloWorld.txt';
       let params = 'input:aGVsbG8gd29ybGQ=';
       params += ' out:"' + outFile + '"';
       const fullCmd = getCommand(params, 'decode');
@@ -225,7 +226,8 @@ if ((isTravis === false)) {
   describe('Bin End of line test', function() {
     it('should encode hello world and add End of Line for the current os', function(done) {
       const enc = encodeText('hello world', 'eol');
-      assert.equal(('aGVsbG8gd29ybGQ=' + eol), enc);
+      console.log("eol", endOfLine.length, endOfLine);
+      assert.equal(('aGVsbG8gd29ybGQ=' + endOfLine), enc);
       done();
     });
     it("should encode hello world", function (done) {
@@ -242,7 +244,7 @@ if ((isTravis === false)) {
       });
     });
     it("should write a file to equal base64 encoded fixture and ignore eol", function (done) {
-      let outFile = './scratch/tmp/text/enc/encodedEol.txt';
+      let outFile = './scratch/test/text/enc/encodedEol.txt';
       let params = 'in:"test/fixtures/decoded.txt"';
       params += ' out:"' + outFile + '"';
       const fullCmd = getCommand(params, 'encode', 'eol');
@@ -274,7 +276,13 @@ function getCommand() {
   for (var i = 1; i < arguments.length; i++) {
     p += ' ' + arguments[i];
   }
-  return '$(which node) ./bin/base64.js ' + p;
+  var result = '';
+  if (isWin === true) {
+    result = '.\\bin\\base64.cmd ' + p;
+  } else {
+    result = 'npx ./bin/base64.js ' + p;
+  }
+  return result;
 }
 function getCommandEncode(encodeString, optinalParams) {
   let params = 'encode input:"' + encodeString + '"';

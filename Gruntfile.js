@@ -1,3 +1,5 @@
+var isWin = process.platform === "win32";
+
 module.exports = function (grunt) {
   grunt.initConfig({
     // pkg: packageData,
@@ -21,6 +23,7 @@ module.exports = function (grunt) {
     },
     clean: {
       dirs: ['scratch', 'dist', 'lib'],
+      test: ['./scratch/test'],
       files: [
         './index.js',
         './base64.min.js',
@@ -124,14 +127,21 @@ module.exports = function (grunt) {
     grunt.log.writeln("packageData.version:" + packageData.version);
   });
   grunt.registerTask('test', [
-    'clean:dirs',
-    'run_test'
+    'clean:test',
+    'run_test',
+    'clean:test'
   ]);
   grunt.registerTask('run_test', 'run mocha', function () {
     var done = this.async();
     // exec works with $(which mocha) except on travis ci below nodejs version 8
     // exec $(which node) $(which mocha) works on all tested versions
-    require('child_process').exec('$(which node) $(which mocha)', function (err, stdout) {
+    var cmd = '';
+    if (isWin === true) {
+      var cmd =  'npx mocha'; // '.\\node_modules\\.bin\\mocha.cmd';
+    } else {
+      var cmd = 'npx mocha'; // '$(which node) $(which mocha)';
+    }
+    require('child_process').exec(cmd, function (err, stdout) {
       grunt.log.write(stdout);
       done(err);
     });
@@ -163,7 +173,7 @@ module.exports = function (grunt) {
     'uglify:js',
     'copy:d'
 ]);
-
+ // #region git
   grunt.registerTask('gitver', [
     'env:build',
     'gitveradd',
@@ -171,7 +181,7 @@ module.exports = function (grunt) {
     'gitvertag',
     'gitverpush'
   ]);
-  // #region git
+
   grunt.registerTask('gitveradd', 'run git add', function () {
     var command = 'git add .';
     grunt.log.writeln("Executing command:" + command);
