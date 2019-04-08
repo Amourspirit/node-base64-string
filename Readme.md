@@ -16,7 +16,7 @@
 ## Install
 
 ```sh
-$ npm install base64-string
+$ npm install --save base64-string
 ```
 
 ## CLI
@@ -92,10 +92,21 @@ base64-string sniff in:"./tmp/enc.txt"
 
 Encode text to base64url, as per [RFC-4648](https://en.wikipedia.org/wiki/Base64#RFC_4648). The result is a URL-safe base64url encoded [UTF-8](https://en.wikipedia.org/wiki/UTF-8) string.  
 
-```js
-const Base64 = require('base64-string');
+**TypeScript:**
+
+```ts
+import { Base64 } from 'base64-string';
 // other code
-var enc = new Base64()
+const enc = new Base64();
+const b64 = enc.urlEncode('some url data');
+```
+
+**JavaScript:**
+
+```js
+var Base64 = require('base64-string').Base64;
+// other code
+var enc = new Base64();
 var b64 = enc.urlEncode('some url data');
 ```
 
@@ -103,10 +114,21 @@ var b64 = enc.urlEncode('some url data');
 
 Decode base64 and base64url encoded text, as per [RFC-4648](https://en.wikipedia.org/wiki/Base64#RFC_4648). Input data is assumed to be a base64 or base64url encoded [UTF-8](https://en.wikipedia.org/wiki/UTF-8) string.  
 
-```js
-const Base64 = require('base64-string');
+**TypeScript:**
+
+```ts
+import { Base64 } from 'base64-string';
 // other code
-var enc = new Base64()
+const enc = new Base64();
+const b64 = enc.decode('aGVsbG8gd29ybGQ='); // hello world
+```
+
+**JavaScript:**
+
+```js
+var Base64 = require('base64-string').Base64;
+// other code
+var enc = new Base64();
 var b64 = enc.decode('aGVsbG8gd29ybGQ='); // hello world
 ```
 
@@ -114,10 +136,21 @@ var b64 = enc.decode('aGVsbG8gd29ybGQ='); // hello world
 
 Encode text to base64, as per [RFC-4648](https://en.wikipedia.org/wiki/Base64#RFC_4648). The result is a base64 encoded [UTF-8](https://en.wikipedia.org/wiki/UTF-8) string.  
 
-```js
-const Base64 = require('base64-string');
+**TypeScript:**
+
+```ts
+import { Base64 } from 'base64-string';
 // other code
-var enc = new Base64()
+const enc = new Base64();
+const b64 = enc.encode('hello world'); // aGVsbG8gd29ybGQ=
+```
+
+**JavaScript:**
+
+```js
+var Base64 = require('base64-string').Base64;
+// other code
+var enc = new Base64();
 var b64 = enc.encode('hello world'); // aGVsbG8gd29ybGQ=
 ```
 
@@ -126,9 +159,20 @@ var b64 = enc.encode('hello world'); // aGVsbG8gd29ybGQ=
 Check whether specified base64 string contains base64url specific characters.  
 Return true if specified string is base64url encoded, false otherwise.  
 
-```js
-const Base64 = require('base64-string');
+**TypeScript:**
+
+```ts
+import { Base64 } from 'base64-string';
 // other code
-var enc = new Base64()
+const enc = new Base64();
+const b64 = enc.urlSniff(someStringVar); // returns a boolean
+```
+
+**JavaScript:**
+
+```js
+var Base64 = require('base64-string').Base64;
+// other code
+var enc = new Base64();
 var isUrlBase64 = enc.urlSniff(someStringVar); // returns a boolean
 ```
