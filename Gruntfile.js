@@ -1,12 +1,45 @@
 module.exports = function (grunt) {
   var isWin = process.platform === "win32";
   var nodeMajor = _getNodeMajor();
+  // #region Functions
   function _getNodeMajor() {
     // https://www.regexpal.com/?fam=108819
     var s = process.version;
     var major = s.replace(/v?(?:(\d+)\.)?(?:(\d+)\.)?(\*|\d+)/, '$1');
     return parseInt(major, 10);
   }
+  function bumpVerson(segment) {
+    var file = 'package.json';
+    var jpkg = grunt.file.readJSON(file);
+    var verRegex = /(?:(\d+)\.)?(?:(\d+)\.)?(\*|\d+)/;
+    var verStr = jpkg.version;
+    var major = parseInt(verStr.replace(verRegex, '$1'), 10);
+    var minor = parseInt(verStr.replace(verRegex, '$2'), 10);
+    var build = parseInt(verStr.replace(verRegex, '$3'), 10);
+    var save = false;
+    if (segment === 'build') {
+      build++;
+      save = true;
+    } else if (segment === 'minor') {
+      minor++;
+      build = 0;
+      save = true;
+    } else if (segment === 'major') {
+      major++;
+      minor = 0;
+      build = 0;
+      save = true;
+    }
+    if (save === true) {
+      var newVer = major + '.' + minor + '.' + build;
+      jpkg.version = newVer;
+      grunt.file.write(file, JSON.stringify(jpkg, null, 2));
+      return newVer;
+    } else {
+      return verStr;
+    }
+  }
+  // #endregion
   // #region grunt init config
   grunt.initConfig({
     // pkg: packageData,
@@ -103,11 +136,7 @@ module.exports = function (grunt) {
           // expand: false
         }]
       },
-    },
-    version_bump: {
-      files: ['./package.json']
-      // could not get callback to work
-    },
+    }
   });
   // #endregion
   // #region grunt require and load npm task
@@ -120,23 +149,18 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-version-bump');
 // #endregion
   grunt.registerTask('default', [
-    'version_bump:build',
     'build'
   ]);
   grunt.registerTask('build_build', [
-    'version_bump:build',
+    'bumpBuild',
     'build_git'
   ]);
-  grunt.registerTask('build_patch', [
-    'version_bump:patch',
-    'build_git',
-  ]);
-   grunt.registerTask('build_minor', [
-    'version_bump:minor',
+  grunt.registerTask('build_minor', [
+    'bumpMinor',
     'build_git',
   ]);
   grunt.registerTask('build_major', [
-    'version_bump:major',
+    'bumpMajor',
     'build_git',
   ]);
   grunt.registerTask('build_git', [
@@ -144,7 +168,7 @@ module.exports = function (grunt) {
     'test',
     'gitver'
   ]);
-  grunt.registerTask('envcheck', ['version_bump:build', 'env:dev', 'devtest']);
+  grunt.registerTask('envcheck', ['bumpBuild', 'env:dev', 'devtest']);
   grunt.registerTask('ver', function () {
     grunt.log.writeln('output from task ver');
     grunt.log.writeln("BUILD_VERSION:" + BUILD_VERSION);
@@ -246,6 +270,20 @@ module.exports = function (grunt) {
       grunt.log.write(stdout);
       done(err);
     });
+  });
+  // #endregion
+  // #region Version
+  grunt.registerTask('bumpBuild', 'Bump version build level', function () {
+    var ver = bumpVerson('build');
+    grunt.log.writeln('Current Version', ver);
+  });
+  grunt.registerTask('bumpMinor', 'Bump version minor level', function () {
+    var ver = bumpVerson('minor');
+    grunt.log.writeln('Current Version', ver);
+  });
+  grunt.registerTask('bumpMajor', 'Bump version minor level', function () {
+    var ver = bumpVerson('major');
+    grunt.log.writeln('Current Version', ver);
   });
   // #endregion
 };
