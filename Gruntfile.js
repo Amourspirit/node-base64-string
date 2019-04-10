@@ -146,7 +146,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-remove-comments');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-copy');
-  grunt.loadNpmTasks('grunt-version-bump');
 // #endregion
   grunt.registerTask('default', [
     'build'
