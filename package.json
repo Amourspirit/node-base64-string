@@ -66,6 +66,6 @@
   },
   "typings": "./index.d.ts",
   "dependencies": {
-    "mkdirp": "^0.5.1"
+    "mkdirp": "^1.0.0"
   }
 }
