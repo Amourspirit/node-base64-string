@@ -1,7 +1,7 @@
 {
   "_name": "base64string",
   "name": "base64-string",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "description": "Encode or decode base64 strings - including cli",
   "homepage": "https://github.com/Amourspirit/node-base64-string",
   "repository": {
@@ -55,7 +55,7 @@
     "mocha-sinon": "^2.1.0",
     "randomstring": "^1.1.5",
     "sinon": "^7.3.1",
-    "tslint": "^5.15.0",
+    "tslint": "^5.20.1",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.4.1"
   },
