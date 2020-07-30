@@ -12,7 +12,7 @@ const encodedUrlTxt = process.cwd() + '/test/fixtures/encodedUrlData.txt';
 // #region Encoding
 describe('Encoding', function () {
   it('should encode hello world', function (done) {
-    let b = b64;
+    let b = new b64();
     const encoded = b.encode('hello world');
     assert.equal(encoded,'aGVsbG8gd29ybGQ=');
     done();
