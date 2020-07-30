@@ -1,20 +1,21 @@
 'use strict';
 Object.defineProperty(exports, '__esModule', {value: true});
-var Base64 = (function() {
+exports.Base64 = void 0;
+var Base64 = (function () {
 	function Base64() {
 		this.b64c = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
 		this.b64u = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_';
 		this.b64pad = '=';
 	}
-	Base64.prototype.encode = function(s) {
+	Base64.prototype.encode = function (s) {
 		var utf8str = unescape(encodeURIComponent(s));
 		return this.encodeData(utf8str, utf8str.length, this.b64c);
 	};
-	Base64.prototype.urlEncode = function(s) {
+	Base64.prototype.urlEncode = function (s) {
 		var utf8str = unescape(encodeURIComponent(s));
 		return this.encodeData(utf8str, utf8str.length, this.b64u);
 	};
-	Base64.prototype.decode = function(data) {
+	Base64.prototype.decode = function (data) {
 		var dst = '';
 		var i;
 		var a;
@@ -37,7 +38,7 @@ var Base64 = (function() {
 		dst = decodeURIComponent(escape(dst));
 		return dst;
 	};
-	Base64.prototype.urlSniff = function(s) {
+	Base64.prototype.urlSniff = function (s) {
 		if (s.indexOf('-') >= 0) {
 			return true;
 		}
@@ -46,7 +47,7 @@ var Base64 = (function() {
 		}
 		return false;
 	};
-	Base64.prototype.encodeData = function(data, len, b64x) {
+	Base64.prototype.encodeData = function (data, len, b64x) {
 		var dst = '';
 		var i = 0;
 		for (i = 0; i <= len - 3; i += 3) {
@@ -68,7 +69,7 @@ var Base64 = (function() {
 		}
 		return dst;
 	};
-	Base64.prototype.charIndex = function(c) {
+	Base64.prototype.charIndex = function (c) {
 		if (c === '+') {
 			return 62;
 		}

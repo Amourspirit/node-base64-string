@@ -36,28 +36,28 @@
     "node": ">=6"
   },
   "devDependencies": {
-    "@ephox/tslint-rules": "^1.0.6",
-    "@types/chai": "^4.1.7",
-    "@types/mkdirp": "^0.5.2",
-    "@types/mocha": "^5.2.6",
+    "@ephox/tslint-rules": "^1.1.1",
+    "@types/chai": "^4.2.12",
+    "@types/mkdirp": "^1.0.1",
+    "@types/mocha": "^8.0.0",
     "chai": "^4.2.0",
-    "grunt": "^1.0.4",
+    "grunt": "^1.2.1",
     "grunt-cli": "^1.3.2",
     "grunt-contrib-clean": "^2.0.0",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-uglify": "^4.0.1",
+    "grunt-contrib-uglify": "^5.0.0",
     "grunt-env": "^1.0.1",
-    "grunt-prettier": "^1.2.0",
+    "grunt-prettier": "^2.1.0",
     "grunt-remove-comments": "^0.1.6",
     "grunt-shell": "^3.0.1",
     "grunt-tslint": "^5.0.2",
-    "load-grunt-tasks": "^4.0.0",
-    "mocha-sinon": "^2.1.0",
+    "load-grunt-tasks": "^5.1.0",
+    "mocha-sinon": "^2.1.2",
     "randomstring": "^1.1.5",
-    "sinon": "^7.3.1",
-    "tslint": "^5.20.1",
+    "sinon": "^9.0.2",
+    "tslint": "^6.1.2",
     "tslint-config-prettier": "^1.18.0",
-    "typescript": "^3.4.1"
+    "typescript": "^3.9.7"
   },
   "main": "./index.js",
   "bin": {
@@ -66,6 +66,6 @@
   "typings": "./index.d.ts",
   "dependencies": {
     "mkdirp": "^1.0.4",
-    "mocha": "^7.1.1"
+    "mocha": "^8.0.1"
   }
 }

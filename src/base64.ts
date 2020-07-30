@@ -112,3 +112,4 @@ export class Base64 {
   }
 };
 // module.exports = Base64;
+// export = Base64;

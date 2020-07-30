@@ -1,5 +1,6 @@
 // #region imports
 import { Base64 } from './base64';
+// import Base64 = require("./base64")
 import * as fs from 'fs';
 import * as path from 'path';
 import * as mkdirp from 'mkdirp';
