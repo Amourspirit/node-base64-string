@@ -46,16 +46,16 @@ describe('Encoding', function () {
       });
     });
   });
-  it('should encode file and do a round robin to equal the original file', function (done) {
-    fs.readFile(decodedTxt, function (err, contents) {
-      const decodedFile = contents.toString();
-      let b = new b64();
-      const encoded = b.encode(decodedFile);
-      const decoded = b.decode(encoded);
-      assert.equal(decoded, 'hello world');
-      done();
-    });
-  });
+  // it('should encode file and do a round robin to equal the original file', function (done) {
+  //   fs.readFile(decodedTxt, function (err, contents) {
+  //     const decodedFile = contents.toString();
+  //     let b = new b64();
+  //     const encoded = b.encode(decodedFile);
+  //     const decoded = b.decode(encoded);
+  //     assert.equal(decoded, 'hello world');
+  //     done();
+  //   });
+  // });
 });
 // #endregion
 // #region Decoding
