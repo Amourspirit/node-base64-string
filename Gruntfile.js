@@ -8,6 +8,17 @@ module.exports = function (grunt) {
     var major = s.replace(/v?(?:(\d+)\.)?(?:(\d+)\.)?(\*|\d+)/, '$1');
     return parseInt(major, 10);
   }
+  function appendToFile(file, str) {
+    var options = {
+      // If an encoding is not specified, default to grunt.file.defaultEncoding.
+      // If specified as null, returns a non-decoded Buffer instead of a string.
+      encoding: 'utf8'
+    };
+    var contents = grunt.file.read(file, options);
+    contents += str;
+    grunt.file.delete(file, { force: true });
+    grunt.file.write(file, contents, options);
+  }
   function bumpVerson(segment) {
     var file = 'package.json';
     var jpkg = grunt.file.readJSON(file);
@@ -97,6 +108,18 @@ module.exports = function (grunt) {
         expand: true,
         dest: 'scratch/nc/'
       },
+      es6_js: {
+        options: {
+          multiline: true, // Whether to remove multi-line block comments
+          singleline: true, // Whether to remove the comment of a single line.
+          keepSpecialComments: false, // Whether to keep special comments, like: /*! !*/
+          linein: true, // Whether to remove a line-in comment that exists in the line of code, it can be interpreted as a single-line comment in the line of code with /* or //.
+          isCssLinein: false // Whether the file currently being processed is a CSS file
+        },
+        src: './lib/es6/base64.js',
+        expand: false,
+        dest: './js/base64.js'
+      }
     },
     prettier: {
       format_js: {
@@ -129,10 +152,6 @@ module.exports = function (grunt) {
           src: './scratch/es6/base64.min.js',
           dest: 'js/base64.min.js'
           // expand: false
-        },
-        {
-          src: './lib/es6/base64.js',
-          dest: 'js/base64.js'
         }]
       }
     },
@@ -151,7 +170,7 @@ module.exports = function (grunt) {
           patterns: [
             {
               match: /"sources":\["lib\/es6\/(.*?)"]/g,
-              replacement: '"sources":["./$1"]'
+              replacement: '"sources":["$1"]'
             }
           ]
         },
@@ -223,13 +242,20 @@ module.exports = function (grunt) {
       done(err);
     });
   });
+  grunt.registerTask('append_map_es6', function () {
+    var file = 'scratch/es6/base64.min.js';
+    var strMap = '\n//# sourceMappingURL=base64.min.js.map';
+    appendToFile(file, strMap);
+  });
   grunt.registerTask('es6', [
     'clean:dirs',
     'clean:js',
     'shell:tsces6',
     'terser:main',
+    'append_map_es6',
+    'replace:es6_map',
     'copy:es6_js',
-    'replace:es6_map'
+    'remove_comments:es6_js'
   ]);
   grunt.registerTask('build', [
     'env:build',
