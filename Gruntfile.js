@@ -63,27 +63,25 @@ module.exports = function (grunt) {
     },
     clean: {
       dirs: ['scratch', 'dist', 'lib'],
+      js: ['js'],
       test: ['./scratch/test'],
       files: [
         './index.js',
-        './base64.min.js',
-        './base64.min.js.map',
         'index.d.ts'
       ]
     },
-
     tslint: {
       options: {
         configuration: 'tslint.json'
       },
       plugin: ['src/**/*.ts']
     },
-
     shell: {
       tsc: 'tsc',
       prepublish: 'npm test && npm run lint',
       version: 'git add .',
-      postversion: 'git push && git push --tags'
+      postversion: 'git push && git push --tags',
+      tsces6: 'tsc @tsconfiges3.txt',
     },
     remove_comments: {
       js: {
@@ -116,17 +114,6 @@ module.exports = function (grunt) {
         }
       }
     },
-    uglify: {
-      js: {
-        options: {
-          sourceMap: true,
-          mangle: true,
-        },
-        files: {
-          "base64.min.js": 'lib/base64.js'
-        }
-      }
-    },
     copy: {
       d: {
         files: [{
@@ -136,6 +123,42 @@ module.exports = function (grunt) {
           // expand: false
         }]
       },
+      es6_js: {
+        files: [{
+          // cwd: 'lib/',
+          src: './scratch/es6/base64.min.js',
+          dest: 'js/base64.min.js'
+          // expand: false
+        },
+        {
+          src: './lib/es6/base64.js',
+          dest: 'js/base64.js'
+        }]
+      }
+    },
+    terser: {
+      main: {
+        options: {
+          sourceMap: true
+        },
+        files: {
+          'scratch/es6/base64.min.js': ['lib/es6/base64.js']        }
+      }
+    },
+    replace: {
+       es6_map: {
+        options: {
+          patterns: [
+            {
+              match: /"sources":\["lib\/es6\/(.*?)"]/g,
+              replacement: '"sources":["./$1"]'
+            }
+          ]
+        },
+        files: [
+          { expand: true, flatten: true, src: ['scratch/es6/base64.min.js.map'], dest: 'js/' }
+        ]
+      }
     }
   });
   // #endregion
@@ -144,8 +167,9 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-env');
   grunt.loadNpmTasks('grunt-prettier');
   grunt.loadNpmTasks('grunt-remove-comments');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-copy');
+  grunt.loadNpmTasks('grunt-replace');
+  grunt.loadNpmTasks('grunt-terser');
 // #endregion
   grunt.registerTask('default', [
     'build'
@@ -199,6 +223,14 @@ module.exports = function (grunt) {
       done(err);
     });
   });
+  grunt.registerTask('es6', [
+    'clean:dirs',
+    'clean:js',
+    'shell:tsces6',
+    'terser:main',
+    'copy:es6_js',
+    'replace:es6_map'
+  ]);
   grunt.registerTask('build', [
     'env:build',
   /*
@@ -223,9 +255,8 @@ module.exports = function (grunt) {
      * Runs prettier from package.json
      */
     'prettier:format_js',
-    'uglify:js',
     'copy:d'
-]);
+  ]);
  // #region git
   grunt.registerTask('gitver', [
     'gitveradd',

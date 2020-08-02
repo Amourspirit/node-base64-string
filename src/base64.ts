@@ -111,5 +111,3 @@ export class Base64 {
     return this.b64u.indexOf(c)
   }
 };
-// module.exports = Base64;
-// export = Base64;

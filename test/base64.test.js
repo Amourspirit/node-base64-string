@@ -1,8 +1,12 @@
 // #region const and require
+// import { Base64 } from '../index.js';
+// const b64 = Base64;
 const assert = require('chai').assert;
 require('mocha-sinon');
 const fs = require('fs');
 const b64 = require('../index.js').Base64;
+
+
 const randomstring = require('randomstring');
 const decodedTxt = process.cwd() + '/test/fixtures/decoded.txt';
 const encodedTxt = process.cwd() + '/test/fixtures/encoded.txt';
@@ -42,7 +46,16 @@ describe('Encoding', function () {
       });
     });
   });
-  
+  it('should encode file and do a round robin to equal the original file', function (done) {
+    fs.readFile(decodedTxt, function (err, contents) {
+      const decodedFile = contents.toString();
+      let b = new b64();
+      const encoded = b.encode(decodedFile);
+      const decoded = b.decode(encoded);
+      assert.equal(decoded, 'hello world');
+      done();
+    });
+  });
 });
 // #endregion
 // #region Decoding

@@ -1,7 +1,7 @@
 {
   "_name": "base64string",
   "name": "base64-string",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "description": "Encode or decode base64 strings - including cli",
   "homepage": "https://github.com/Amourspirit/node-base64-string",
   "repository": {
@@ -39,23 +39,25 @@
     "@ephox/tslint-rules": "^1.1.1",
     "@types/chai": "^4.2.12",
     "@types/mkdirp": "^1.0.1",
-    "@types/mocha": "^8.0.0",
+    "@types/mocha": "^8.0.1",
     "chai": "^4.2.0",
     "grunt": "^1.2.1",
     "grunt-cli": "^1.3.2",
     "grunt-contrib-clean": "^2.0.0",
     "grunt-contrib-copy": "^1.0.0",
-    "grunt-contrib-uglify": "^5.0.0",
     "grunt-env": "^1.0.1",
     "grunt-prettier": "^2.1.0",
     "grunt-remove-comments": "^0.1.6",
+    "grunt-replace": "^1.0.1",
     "grunt-shell": "^3.0.1",
+    "grunt-terser": "^1.0.0",
     "grunt-tslint": "^5.0.2",
     "load-grunt-tasks": "^5.1.0",
+    "mocha": "^8.1.0",
     "mocha-sinon": "^2.1.2",
     "randomstring": "^1.1.5",
     "sinon": "^9.0.2",
-    "tslint": "^6.1.2",
+    "tslint": "^6.1.3",
     "tslint-config-prettier": "^1.18.0",
     "typescript": "^3.9.7"
   },
@@ -65,7 +67,6 @@
   },
   "typings": "./index.d.ts",
   "dependencies": {
-    "mkdirp": "^1.0.4",
-    "mocha": "^8.0.1"
+    "mkdirp": "^1.0.4"
   }
 }
