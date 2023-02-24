@@ -48,7 +48,7 @@
     "grunt-env": "^1.0.1",
     "grunt-prettier": "^2.1.0",
     "grunt-remove-comments": "^0.1.6",
-    "grunt-replace": "^1.0.1",
+    "grunt-replace": "^2.0.2",
     "grunt-shell": "^3.0.1",
     "grunt-terser": "^1.0.0",
     "grunt-tslint": "^5.0.2",
