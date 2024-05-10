@@ -192,6 +192,3 @@ if (options.out) {
   log(result, options.eol);
 }
 // #endregion
-// #region exit
-process.exit(0);
-// #endregion
