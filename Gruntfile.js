@@ -165,7 +165,7 @@ module.exports = function (grunt) {
       }
     },
     replace: {
-       es6_map: {
+      es6_map: {
         options: {
           patterns: [
             {
